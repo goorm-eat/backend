@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb
+  name: mysql
   namespace: default
 spec:
   clusterIP: None
   selector:
-    app: mongodb
+    app: mysql
   ports:
-    - name: mongo
+    - name: mysql
       port: 27017
       targetPort: 27017
