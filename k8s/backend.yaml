@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-backend
+  template:
+    metadata:
+      labels:
+        app: test-backend
+    spec:
+      containers:
+        - name: backend
+          image: 837126493345.dkr.ecr.ap-northeast-2.amazonaws.com/team2/backend:latest
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config
+              readOnly: true
+      volumes:
+        - name: config-volume
+          configMap:
+            name: test-backend-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-backend
+spec:
+  selector:
+    app: test-backend
+  ports:
+    - port: 80
+      targetPort: 8080
