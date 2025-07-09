@@ -1,0 +1,11 @@
+patches:
+  - target:
+      kind: Secret
+      name: mysql-secret
+    patch: |
+      - op: replace
+        path: /stringData
+        value:
+          MYSQL_USER: eatgoorm
+          MYSQL_PASSWORD: eatgoorm
+          MYSQL_DATABASE: mydb
