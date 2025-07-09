@@ -1,6 +1,7 @@
 resources:
   - backend.yaml
 
+
 configMapGenerator:
   - name: java-backend-config
     files:
