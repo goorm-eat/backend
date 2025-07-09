@@ -19,6 +19,6 @@ patches:
       - op: replace
         path: /stringData
         value:
-          MYSQL_USER: myuser
-          MYSQL_PASSWORD: mypass123
+          MYSQL_USER: eatgoorm
+          MYSQL_PASSWORD: eatgoorm
           MYSQL_DATABASE: mydb
