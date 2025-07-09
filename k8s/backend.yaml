@@ -24,7 +24,7 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: test-backend-config
+            name: java-backend-config
 ---
 apiVersion: v1
 kind: Service
