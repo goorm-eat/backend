@@ -22,9 +22,7 @@ public class NaverLoginController {
     //public void redirectToNaver(HttpServletResponse response) throws IOException {
     //    oAuthService.redirectToNaver(response);
     //}
-    public ResponseEntity<LoginResponseDto> login(@RequestParam String id,
-                                                  @RequestParam String pass) {
-
+    public ResponseEntity<LoginResponseDto> login(@RequestParam String id, @RequestParam String pass) {
         Optional<Member> member= memberRepository.findByNicknameAndPassword(id, pass);
         JwtUtil jwtUtil = new JwtUtil();
         String token = jwtUtil.createToken("eteefe", member.get().getId());
