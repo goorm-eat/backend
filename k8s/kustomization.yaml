@@ -1,0 +1,11 @@
+resources:
+  - backend.yaml
+
+
+configMapGenerator:
+  - name: java-backend-config
+    files:
+      - config.json=config/configback.json
+
+generatorOptions:
+  disableNameSuffixHash: true
