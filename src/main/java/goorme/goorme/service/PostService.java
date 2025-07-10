@@ -8,6 +8,8 @@ import goorme.goorme.repository.ParticipantRepository;
 import goorme.goorme.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,8 +64,9 @@ public class PostService {
     }
 
     public List<Post> findPostsByParticipant(Member member, int limit) {
-        return participantRepository.findPostsByMember(member, PageRequest.of(0, limit, Sort.by("post.createdDate").descending()));
-    }
+        Pageable pageable = PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "createdDate"));
+        return participantRepository.findPostsByMember(member, pageable);
+        }
 
     public List<Post> findRecentPosts(int limit) {
         return postRepository.findAll(PageRequest.of(0, limit, Sort.by("createdDate").descending())).getContent();
