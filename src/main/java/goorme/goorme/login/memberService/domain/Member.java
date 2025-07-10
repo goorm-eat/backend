@@ -27,9 +27,12 @@ public class Member {
     private String role;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private int cnt;
+    private String token;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participant> participants = new ArrayList<>();
+
 
     public void addParticipation(Participant participation) {
         participants.add(participation);

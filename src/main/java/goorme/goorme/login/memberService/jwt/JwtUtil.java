@@ -16,6 +16,13 @@ public class JwtUtil {
 
     private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24; // 1일
 
+    public String createTokens(String nickname, Long cnt) {
+        return Jwts.builder()
+                .claim("nickname", nickname)
+                .claim("cnt", cnt)
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .compact();
+    }
     public String createToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
