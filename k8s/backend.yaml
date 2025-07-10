@@ -19,6 +19,7 @@ spec:
           ports:
             - containerPort: 8080
             - containerPort: 5173
+
           volumeMounts:
             - name: config-volume
               mountPath: /config/application.yaml
