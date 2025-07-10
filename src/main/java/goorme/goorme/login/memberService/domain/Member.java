@@ -14,7 +14,6 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +35,7 @@ public class Member {
         participants.add(participation);
     }
 
-    @OneToOne(mappedBy="member", fetch=FetchType.LAZY)
+    @OneToOne(mappedBy="host", fetch=FetchType.LAZY)
     private Post participantHost;
 
     @PrePersist

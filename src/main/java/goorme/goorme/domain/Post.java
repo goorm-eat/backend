@@ -19,6 +19,7 @@ public class Post {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name="host_id")
     private Member host;
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participant> participants = new ArrayList<>();
     public void addParticipation(Participant participant) {

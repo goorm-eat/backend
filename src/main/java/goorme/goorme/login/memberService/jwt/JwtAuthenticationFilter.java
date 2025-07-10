@@ -31,22 +31,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
+        System.out.println("Authorization Header: " + authHeader);
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.replace("Bearer ", "");
             try {
                 Claims claims = jwtUtil.parseToken(token);
-                Long userId = Long.parseLong(claims.getSubject());
-                Member member = memberRepository.findById(userId).orElse(null);
+                String userEmail = claims.getSubject();
+                System.out.println("JWT Claims subject: " + userEmail);
 
-                if (member != null) {
+                List<Member> members = memberRepository.findAllByEmail(userEmail);
+                if (members.isEmpty()) {
+                    // 인증 실패 처리 (예: 로그 남기거나 다음 필터로 넘김)
+                } else {
+                    Member member = members.get(0); // 첫번째 멤버 선택
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(member, null, List.of());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             } catch (Exception e) {
-                // 토큰 파싱 실패시 무시 (401 따로 던지지 않음)
+                System.out.println("JWT parsing failed: " + e.getMessage());
             }
+        }
+        else {
+            System.out.println("No Bearer token found in Authorization header");
         }
 
         filterChain.doFilter(request, response);
