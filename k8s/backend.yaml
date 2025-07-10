@@ -18,6 +18,7 @@ spec:
           image: 837126493345.dkr.ecr.ap-northeast-2.amazonaws.com/team2/backend:latest
           ports:
             - containerPort: 8080
+            - containerPort: 5173
           volumeMounts:
             - name: config-volume
               mountPath: /config/application.yaml
