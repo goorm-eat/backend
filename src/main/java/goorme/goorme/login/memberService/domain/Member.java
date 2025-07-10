@@ -18,6 +18,8 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String password;
+    private String loginss;
     private String provider;
     private String providerId;
     private String nickname;

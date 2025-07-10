@@ -14,6 +14,6 @@ import java.util.Optional;
         List<Member> findByCnt(int cnt);
         Optional<Member> findByEmail(String userEmail);
         List<Member> findAllByEmail(String email);
-
+        Optional<Member> findByNicknameAndPassword(String nickname, String password);
         Optional<Object> findByToken(String token);
     }

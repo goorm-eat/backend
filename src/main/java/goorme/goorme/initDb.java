@@ -29,6 +29,8 @@ public class initDb {
 
             Member member = new Member();
             member.setNickname("test1");
+            member.setLoginss("test");
+            member.setPassword("test");
             member.setCnt(1);
             em.persist(member);
         }
