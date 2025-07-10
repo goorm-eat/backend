@@ -17,7 +17,7 @@ spec:
         - name: backend
           image: 837126493345.dkr.ecr.ap-northeast-2.amazonaws.com/team2/backend:latest
           ports:
-            - containerPort: 8080
+            #- containerPort: 8080
             - containerPort: 5173
 
           volumeMounts:
@@ -41,7 +41,7 @@ spec:
   selector:
     app: test-backend
   ports:
-    - port: 80
-      targetPort: 8080
+    #- port: 80
+    #  targetPort: 8080
     - port: 5173
       targetPort: 5173
