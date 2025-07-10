@@ -11,8 +11,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -29,34 +31,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-
-        String authHeader = request.getHeader("Authorization");
-        System.out.println("Authorization Header: " + authHeader);
-
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.replace("Bearer ", "");
-            try {
-                Claims claims = jwtUtil.parseToken(token);
-                String userEmail = claims.getSubject();
-                System.out.println("JWT Claims subject: " + userEmail);
-
-                List<Member> members = memberRepository.findAllByEmail(userEmail);
-                if (members.isEmpty()) {
-                    // 인증 실패 처리 (예: 로그 남기거나 다음 필터로 넘김)
-                } else {
-                    Member member = members.get(0); // 첫번째 멤버 선택
-                    UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(member, null, List.of());
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            } catch (Exception e) {
-                System.out.println("JWT parsing failed: " + e.getMessage());
+        String token = request.getHeader("Authorization");
+        if (token != null) {
+            Optional<Object> member = memberRepository.findByToken(token);
+            if (member != null) {
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(member, null, List.of());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
             }
         }
-        else {
-            System.out.println("No Bearer token found in Authorization header");
-        }
-
         filterChain.doFilter(request, response);
     }
 }
