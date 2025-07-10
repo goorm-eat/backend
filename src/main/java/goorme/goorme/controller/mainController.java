@@ -62,6 +62,10 @@ public class mainController {
     static class Results<T> {
         private T data;
     }
+    @GetMapping("/test")
+    public List<Member> allmem(){
+        return memberRepository.findAll();
+    }
     @PostMapping("/posts/{postId}/join")
     public ResponseEntity<?> joinPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetails user) {
         postService.joinPost(postId, user.getUsername());
