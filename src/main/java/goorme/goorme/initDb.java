@@ -1,5 +1,6 @@
 package goorme.goorme;
 
+import goorme.goorme.domain.Post;
 import goorme.goorme.login.memberService.domain.Member;
 import goorme.goorme.login.memberService.repository.MemberRepository;
 import jakarta.annotation.PostConstruct;
@@ -31,6 +32,8 @@ public class initDb {
             member.setNickname("test2");
             member.setCnt(2);
             em.persist(member);
+            Post post=new Post();
         }
+
     }
 }

@@ -7,7 +7,6 @@ import goorme.goorme.dto.PostDto;
 import goorme.goorme.dto.PostListWrapperDto;
 import goorme.goorme.login.memberService.domain.Member;
 import goorme.goorme.login.memberService.repository.MemberRepository;
-import goorme.goorme.login.security.CustomUserDetails;
 import goorme.goorme.repository.PostRepository;
 import goorme.goorme.service.PostService;
 import lombok.AllArgsConstructor;
