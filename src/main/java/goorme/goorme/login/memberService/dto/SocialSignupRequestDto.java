@@ -15,15 +15,6 @@ public class SocialSignupRequestDto {
     private String email;
     private String nickname;
 
-    public Member toEntity() {
-        return Member.builder()
-                .provider(provider)
-                .providerId(providerId)
-                .email(email)
-                .nickname(nickname)
-                .role("ROLE_USER")
-                .build();
-    }
 
     public static SocialSignupRequestDto fromNaver(NaverUserResponse naver) {
         return new SocialSignupRequestDto(

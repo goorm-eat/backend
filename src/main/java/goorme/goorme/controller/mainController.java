@@ -55,40 +55,41 @@ public class mainController {
         PostDetailDto collected = new PostDetailDto(postss);
         return new Results<>(collected);
     }
-
+    @PostMapping
+    public ResponseEntity<String> createPost(@RequestBody PostDetailDto PostDetailDto) {
+        Post post = new Post();
+        post.setId(PostDetailDto.getHost().getId());
+        post.setHost(PostDetailDto.getHost());
+        post.setTitle(PostDetailDto.getTitle());
+        post.setName(PostDetailDto.getName());
+        post.setOpenLink(PostDetailDto.getOpenLink());
+        post.setLastDate(PostDetailDto.getLastDate());
+        post.setCruitNum(PostDetailDto.getCruitNum());
+        post.setStoreadd(PostDetailDto.getStoreadd());
+        post.setStorename(PostDetailDto.getStorename());
+        postRepository.save(post);
+        return ResponseEntity.ok("ok");
+    }
 
     @Data
     @AllArgsConstructor
     static class Results<T> {
         private T data;
     }
+
     @GetMapping("/test")
     public List<Member> allmem(){
         return memberRepository.findAll();
     }
     @PostMapping("/posts/{postId}/join")
-    public ResponseEntity<?> joinPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetails user) {
-        postService.joinPost(postId, user.getUsername());
+    public ResponseEntity<?> joinPost(@PathVariable Long postId) {
+        Member member = (Member) memberRepository.findByCnt(2);
+        postService.joinPost(postId, member.getNickname());
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/postlist/res")
-    public Results<PostListWrapperDto> myPosts(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        Member member = memberRepository.findByNickname(userDetails.getNickname())
-                .orElseThrow(() -> new IllegalArgumentException("회원이 없습니다"));
-        List<Post> posts = postService.findPostsByMember(member);
-        List<PostDto> dtos = posts.stream()
-                .map(PostDto::new) // 생성자로 바로 DTO 변환
-                .collect(Collectors.toList());
-        return new Results<>(new PostListWrapperDto(dtos));
-    }
     @GetMapping("")
-    public Results<MainPageResponse> getMainPageData(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        String nickname = userDetails.getNickname();
-
-        // 1. 닉네임
-        Member member = memberRepository.findByNickname(nickname)
-                .orElseThrow(() -> new IllegalArgumentException("회원이 없습니다"));
-
+    public Results<MainPageResponse> getMainPageData() {
+        Member member = (Member) memberRepository.findByCnt(2);
         // 2. 내가 참여한 게시글 2개
         List<Post> myJoinedPosts = postService.findPostsByParticipant(member, 2);
 
@@ -103,7 +104,7 @@ public class mainController {
                 .map(PostDetailDto::new)
                 .collect(Collectors.toList());
 
-        MainPageResponse response = new MainPageResponse(nickname, joinedDtos, recentDtos);
+        MainPageResponse response = new MainPageResponse(member.getNickname(), joinedDtos, recentDtos);
         return new Results<>(response);
     }
 

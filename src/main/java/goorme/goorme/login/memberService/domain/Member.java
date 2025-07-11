@@ -18,17 +18,9 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String password;
-    private String loginss;
-    private String provider;
-    private String providerId;
     private String nickname;
     private String name;
-    private String mobileNumber;
-    private String email;
-    private String role;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
     private int cnt;
     private String token;
 
@@ -42,16 +34,6 @@ public class Member {
 
     @OneToOne(mappedBy="host", fetch=FetchType.LAZY)
     private Post participantHost;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = this.updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
 
 
 }

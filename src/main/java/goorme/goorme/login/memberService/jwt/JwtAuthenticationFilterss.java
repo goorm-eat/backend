@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class JwtAuthenticationFilterss extends OncePerRequestFilter {
@@ -40,11 +41,11 @@ public class JwtAuthenticationFilterss extends OncePerRequestFilter {
                 String userEmail = claims.getSubject();
                 System.out.println("JWT Claims subject: " + userEmail);
 
-                List<Member> members = memberRepository.findAllByEmail(userEmail);
+                Optional<Member> members = memberRepository.findByNickname(userEmail);
                 if (members.isEmpty()) {
                     // 인증 실패 처리 (예: 로그 남기거나 다음 필터로 넘김)
                 } else {
-                    Member member = members.get(0); // 첫번째 멤버 선택
+                    Member member = members.get(); // 첫번째 멤버 선택
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(member, null, List.of());
                     SecurityContextHolder.getContext().setAuthentication(authentication);

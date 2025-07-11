@@ -33,7 +33,6 @@ public class PostDetailDto {
         this.storename = storename;
         this.storeadd = storeadd;
         this.meetDate = meetDate;
-        this.createdDate = createdDate;
         this.lastDate = lastDate;
         this.openLink = openLink;
         this.detail = detail;
